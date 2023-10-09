@@ -80,3 +80,24 @@ func lengthOfLongestSubstring3(s string) int {
 	}
 	return ret
 }
+
+func lengthOfLongestSubstringWindow(s string) int {
+	window := make(map[byte]int)
+	left, right := 0, 0
+	ret := ""
+	for right < len(s) {
+		c := s[right]
+		window[c]++
+		right++
+		for window[c] > 1 {
+			window[s[left]]--
+			left++
+		}
+		if ret == "" {
+			ret = s[left:right]
+		} else if right-left > len(ret) {
+			ret = s[left:right]
+		}
+	}
+	return len(ret)
+}
