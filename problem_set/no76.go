@@ -67,3 +67,37 @@ func minWindow(s string, t string) string {
 //		}
 //	}
 //}
+
+func minWindow2(s string, t string) string {
+	tM := make(map[int32]int)
+	for _, v := range t {
+		tM[v]++
+	}
+	ret := ""
+	left := 0
+	sM := make(map[int32]int)
+	for right, v := range s {
+		sM[v]++
+		for minWindow2Help(sM, tM) {
+			length := right - left + 1
+			if length < len(ret) && ret != "" {
+				ret = s[left : right+1]
+			}
+			if ret == "" {
+				ret = s[left : right+1]
+			}
+			sM[int32(s[left])]--
+			left++
+		}
+	}
+	return ret
+}
+
+func minWindow2Help(sM, tM map[int32]int) bool {
+	for k, v := range tM {
+		if sM[k] < v {
+			return false
+		}
+	}
+	return true
+}
