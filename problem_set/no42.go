@@ -24,3 +24,30 @@ func trap(height []int) int {
 	}
 	return ans
 }
+
+func trap2(height []int) int {
+	pre := make([]int, len(height))
+	suf := make([]int, len(height))
+	for i := 0; i < len(height); i++ {
+		if i > 0 {
+			pre[i] = max(pre[i-1], height[i])
+		} else {
+			pre[i] = height[i]
+		}
+	}
+	for i := len(height) - 1; i >= 0; i-- {
+		if i >= len(height)-1 {
+			suf[i] = height[i]
+		} else {
+			suf[i] = max(height[i], suf[i+1])
+		}
+	}
+	ret := 0
+	for i := 0; i < len(height); i++ {
+		h := min(suf[i], pre[i])
+		if h > height[i] {
+			ret += h - height[i]
+		}
+	}
+	return ret
+}
