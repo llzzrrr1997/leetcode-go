@@ -23,3 +23,22 @@ func reverseN(head *ListNode, n int) *ListNode {
 	head.Next = n1Node
 	return last
 }
+
+func reverseBetween2(head *ListNode, left int, right int) *ListNode {
+	newHead := &ListNode{Next: head}
+	p0 := newHead
+	for i := 0; i < left-1; i++ {
+		p0 = p0.Next
+	}
+	var pre, cur *ListNode = nil, p0.Next
+	for i := 0; i < right-left+1; i++ { //反转中间这段
+		next := cur.Next
+		cur.Next = pre
+		pre = cur
+		cur = next
+	}
+
+	p0.Next.Next = cur
+	p0.Next = pre
+	return newHead.Next
+}
