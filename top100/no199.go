@@ -1,0 +1,30 @@
+package top100
+
+func rightSideView(root *TreeNode) []int {
+	ret := [][]int{}
+	q := make([]*TreeNode, 0, 1)
+	if root != nil {
+		q = append(q, root)
+	}
+	for len(q) != 0 {
+		tmp := make([]*TreeNode, 0, 2*len(q))
+		tmpInt := make([]int, 0, len(q))
+		for len(q) != 0 {
+			tmpInt = append(tmpInt, q[0].Val)
+			if q[0].Right != nil {
+				tmp = append(tmp, q[0].Right)
+			}
+			if q[0].Left != nil {
+				tmp = append(tmp, q[0].Left)
+			}
+			q = q[1:]
+		}
+		q = tmp
+		ret = append(ret, tmpInt)
+	}
+	list := make([]int, 0, len(ret))
+	for _, v := range ret {
+		list = append(list, v[0])
+	}
+	return list
+}
